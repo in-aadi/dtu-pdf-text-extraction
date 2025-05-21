@@ -25,4 +25,4 @@ jobs:
       run: npx prisma generate
 
     - name: Run Script
-      run: npx ts-node src/index.ts
+      run: ts-node src/index.ts
