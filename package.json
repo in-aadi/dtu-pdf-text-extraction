@@ -2,14 +2,14 @@
   "name": "dtu-pdf-text-extraction",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "start": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@types/node": "^22.15.19",
     "@types/pdf-parse": "^1.1.5",
