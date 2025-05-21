@@ -24,5 +24,8 @@ jobs:
     - name: Generate Prisma client
       run: npx prisma generate
 
+    - name: Build TypeScript
+      run: npm run build
+
     - name: Run Script
       run: npm start
