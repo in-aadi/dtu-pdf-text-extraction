@@ -17,7 +17,7 @@ export async function extractText(pdfPath: string) {
   if (!isTextEmpty(directText)) {
     console.log('✅ Extracted text directly from PDF!');
     console.log(directText);
-    return;
+    return directText;
   }
 
   console.log('⚠️ PDF has no readable text. Falling back to OCR...');
@@ -37,9 +37,11 @@ export async function extractText(pdfPath: string) {
     const imgPath = path.join(imageOutputDir, file);
     console.log(`🔎 Running OCR on ${file}...`);
     const text = await extractTextFromImage(imgPath);
-    ocrText += `\n\n--- Page ${file} ---\n\n` + text;
+    ocrText += "\n" + text;
   }
   console.log('✅ OCR-based text extraction completed.');
   console.log(ocrText);
   deleteFolderContents(imageOutputDir);
+
+  return ocrText;
 }

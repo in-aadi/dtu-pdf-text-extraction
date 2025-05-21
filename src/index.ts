@@ -3,6 +3,8 @@ import { getUnembeddedNotices } from "../utils/getUnembeddedNotices";
 import { downloadPDF } from '../utils/downloadPDF';
 import fs from 'fs';
 import { extractText } from '../utils/extractText';
+import { loadSampleData } from '../utils/embedText';
+import { markNoticeAsEmbedded } from '../utils/markNoticeAsEmbedded';
 
 async function main() {
   const notices = await getUnembeddedNotices();
@@ -22,9 +24,16 @@ async function main() {
     const pdfPath = path.resolve(__dirname, '..', 'pdfs', fileName);
     try {
       await downloadPDF(notice.pdfLink, pdfPath);
-      await extractText(pdfPath); 
+      const extractedText = await extractText(pdfPath); 
 
-      // await markNoticeAsEmbedded(notice.id); // Update DB
+      if (!extractedText) {
+        console.error(`❌ No text extracted from ${fileName}. Skipping...`);
+        continue;
+      }
+
+      await loadSampleData(extractedText); 
+
+      await markNoticeAsEmbedded(notice.id); // Update DB
       console.log(`✅ Processed and marked as embedded: ${notice.heading}`);
     } catch (err) {
       console.error(`❌ Failed to process ${notice.heading}:`, err);
